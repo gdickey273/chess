@@ -1,6 +1,6 @@
-import { use } from "passport";
 import React, { useState } from "react";
 import Board from "../../components/Board";
+
 function Game(props) {
   const newGameBoardState = {
     a1: {
@@ -196,13 +196,15 @@ function Game(props) {
       }
     }
   }
-
+  
   const [boardState, setBoardState] = useState(newGameBoardState);
   return (
     <>
-    <Board boardState={boardState} />
+    {boardState.a1 && 
+        <Board boardState={boardState} view={"wht"}/>
+    }
     </>
-  )
+    )
 }
 
 
