@@ -56,7 +56,7 @@ function App() {
 
   return (
     <>
-    
+    <Game />
     </>
     // <div className="App">
     //   { loggedIn && (
