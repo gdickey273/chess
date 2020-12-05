@@ -13,10 +13,10 @@ function decrementRank(rank) {
 
 const shift = {
   wht: function(sqrName) {
-    return `${sqrName[0]}${parseInt(sqrName[1]) === 8 ? "" : parseInt(sqrName[1]) + 1}`
+    return sqrName.length < 2 ? "" : `${sqrName[0]}${parseInt(sqrName[1]) === 8 ? "" : parseInt(sqrName[1]) + 1}`
   },
   blk: function(sqrName) {
-    return `${sqrName[0]}${parseInt(sqrName[1]) === 1 ? "" : parseInt(sqrName[1]) - 1}`
+    return sqrName.length < 2 ? "" : `${sqrName[0]}${parseInt(sqrName[1]) === 1 ? "" : parseInt(sqrName[1]) - 1}`
   },
   alph: function(sqrName) {
     return `${incrementRank(sqrName[0])}${sqrName[1]}`
