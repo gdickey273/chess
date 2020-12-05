@@ -17,8 +17,8 @@ const getRange = function (currentSquareArg, boardStateArg) {
       return getRookRange();
     // case "N":
     //   return getKnightRange();
-    // case "B":
-    //   return getBishopRange();
+    case "B":
+      return getBishopRange();
     // case "Q":
     //   return getQueenRange();
     // case "K":
@@ -60,7 +60,6 @@ const getRange = function (currentSquareArg, boardStateArg) {
     let testSqr = currentSquare;
       let bounds = getBoundsByDirection(dir);
       while (testSqr !== bounds) {
-        console.log("infinite loop??");
         testSqr = shift[dir](testSqr);
         range.push(testSqr);
       }
@@ -112,6 +111,14 @@ const getRange = function (currentSquareArg, boardStateArg) {
     getLinearRange("blk");
     getLinearRange("alph");
     getLinearRange("unAlph");
+    return range;
+  }
+
+  function getBishopRange() {
+    getLinearRange("whtAlph");
+    getLinearRange("whtUnAlph");
+    getLinearRange("blkAlph");
+    getLinearRange("blkUnAlph");
     return range;
   }
 }
