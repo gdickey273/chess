@@ -1,18 +1,22 @@
 const rankString = "abcdefgh";
 function incrementRank(rank) {
-  return rankString[rankString.indexOf(rank) + 1];
+  const index = rankString.indexOf(rank);
+  if (index === 7) return "";
+  return rankString[index + 1];
 }
 
 function decrementRank(rank) {
-  return rankString[rankString.indexOf(rank) - 1];
+  const index = rankString.indexOf(rank);
+  if (index === 0) return "";
+  return rankString[index - 1];
 }
 
 const shift = {
   wht: function(sqrName) {
-    return `${sqrName[0]}${parseInt(sqrName[1]) + 1}`
+    return `${sqrName[0]}${parseInt(sqrName[1]) === 8 ? "" : parseInt(sqrName[1]) + 1}`
   },
   blk: function(sqrName) {
-    return `${sqrName[0]}${parseInt(sqrName[1]) - 1}`
+    return `${sqrName[0]}${parseInt(sqrName[1]) === 1 ? "" : parseInt(sqrName[1]) - 1}`
   },
   alph: function(sqrName) {
     return `${incrementRank(sqrName[0])}${sqrName[1]}`
