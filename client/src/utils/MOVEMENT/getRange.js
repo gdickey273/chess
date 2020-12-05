@@ -19,8 +19,8 @@ const getRange = function (currentSquareArg, boardStateArg) {
     //   return getKnightRange();
     case "B":
       return getBishopRange();
-    // case "Q":
-    //   return getQueenRange();
+    case "Q":
+      return getQueenRange();
     // case "K":
     //   return getKingRange();
   }
@@ -115,6 +115,18 @@ const getRange = function (currentSquareArg, boardStateArg) {
   }
 
   function getBishopRange() {
+    getLinearRange("whtAlph");
+    getLinearRange("whtUnAlph");
+    getLinearRange("blkAlph");
+    getLinearRange("blkUnAlph");
+    return range;
+  }
+
+  function getQueenRange() {
+    getLinearRange("wht");
+    getLinearRange("blk");
+    getLinearRange("alph");
+    getLinearRange("unAlph");
     getLinearRange("whtAlph");
     getLinearRange("whtUnAlph");
     getLinearRange("blkAlph");
