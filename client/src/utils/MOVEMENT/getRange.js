@@ -19,8 +19,8 @@ const getRange = function (currentSquareArg, boardStateArg) {
     //   return getKnightRange();
     // case "B":
     //   return getBishopRange();
-    // case "Q":
-    //   return getQueenRange();
+    case "Q":
+      return getQueenRange();
     // case "K":
     //   return getKingRange();
   }
@@ -36,6 +36,24 @@ const getRange = function (currentSquareArg, boardStateArg) {
     const result = boardState[sqrName].piece.isWht !== isWht;
     console.log(`isEnemyOccupied(${sqrName}) result = ${result}`);
     return result;
+  }
+
+  function getBoundsByDirection(dir) {
+    let bounds = currentSquare;
+    let testSqr = shift[dir](currentSquare);
+
+    while(testSqr.length > 1) {
+      
+      if (!isUnoccupied(testSqr)) {
+        if (isEnemyOccupied(testSqr)){
+          return testSqr;
+        } else return bounds;
+      }
+      bounds = testSqr;
+      testSqr = shift[dir](testSqr);
+    }
+
+    return bounds;
   }
 
   function getPawnRange() {
@@ -77,6 +95,10 @@ const getRange = function (currentSquareArg, boardStateArg) {
 
     return range;
     
+  }
+
+  function getQueenRange() {
+    return getBoundsByDirection("blk", "d1");
   }
 }
 
