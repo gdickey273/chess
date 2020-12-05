@@ -13,14 +13,14 @@ const getRange = function (currentSquareArg, boardStateArg) {
   switch (type) {
     case "P":
       return getPawnRange();
-    // case "R":
-    //   return getRookRange();
+    case "R":
+      return getRookRange();
     // case "N":
     //   return getKnightRange();
     // case "B":
     //   return getBishopRange();
-    case "Q":
-      return getQueenRange();
+    // case "Q":
+    //   return getQueenRange();
     // case "K":
     //   return getKingRange();
   }
@@ -30,7 +30,7 @@ const getRange = function (currentSquareArg, boardStateArg) {
     console.log(`isUnoccupied(${sqrName}) result = ${result}`);
     return result;
   }
-  
+
   function isEnemyOccupied(sqrName) {
     if (isUnoccupied(sqrName)) return false;
     const result = boardState[sqrName].piece.isWht !== isWht;
@@ -42,10 +42,10 @@ const getRange = function (currentSquareArg, boardStateArg) {
     let bounds = currentSquare;
     let testSqr = shift[dir](currentSquare);
 
-    while(testSqr.length > 1) {
-      
+    while (testSqr.length > 1) {
+
       if (!isUnoccupied(testSqr)) {
-        if (isEnemyOccupied(testSqr)){
+        if (isEnemyOccupied(testSqr)) {
           return testSqr;
         } else return bounds;
       }
@@ -56,6 +56,16 @@ const getRange = function (currentSquareArg, boardStateArg) {
     return bounds;
   }
 
+  function getLinearRange(dir) {
+    let testSqr = currentSquare;
+      let bounds = getBoundsByDirection(dir);
+      while (testSqr !== bounds) {
+        console.log("infinite loop??");
+        testSqr = shift[dir](testSqr);
+        range.push(testSqr);
+      }
+  } 
+
   function getPawnRange() {
 
     let isFirstMove = false;
@@ -64,10 +74,10 @@ const getRange = function (currentSquareArg, boardStateArg) {
     } else if (!isWht && currentSquare[1] === "7") {
       isFirstMove = true;
     }
-    
+
     //Tests to see square in front of pawn is unoccupied
     let testSqr = shift[color](currentSquare);
-    
+
     if (isUnoccupied(testSqr)) {
       range.push(testSqr);
       if (isFirstMove) {
@@ -94,11 +104,15 @@ const getRange = function (currentSquareArg, boardStateArg) {
 
 
     return range;
-    
+
   }
 
-  function getQueenRange() {
-    return getBoundsByDirection("blk", "d1");
+  function getRookRange() {
+    getLinearRange("wht");
+    getLinearRange("blk");
+    getLinearRange("alph");
+    getLinearRange("unAlph");
+    return range;
   }
 }
 
