@@ -15,8 +15,8 @@ const getRange = function (currentSquareArg, boardStateArg) {
       return getPawnRange();
     case "R":
       return getRookRange();
-    // case "N":
-    //   return getKnightRange();
+    case "N":
+      return getKnightRange();
     case "B":
       return getBishopRange();
     case "Q":
@@ -131,6 +131,43 @@ const getRange = function (currentSquareArg, boardStateArg) {
     getLinearRange("whtUnAlph");
     getLinearRange("blkAlph");
     getLinearRange("blkUnAlph");
+    return range;
+  }
+
+  function getKnightRange() {
+    function testKnightSquare(testSqr) {
+      if (testSqr.length === 2) {
+        if (isUnoccupied(testSqr) || isEnemyOccupied(testSqr)) {
+          range.push(testSqr);
+        }
+      }
+    }
+    let testSqr;
+
+    testSqr = shift.wht(shift.wht(shift.alph(currentSquare)));
+    testKnightSquare(testSqr);
+
+    testSqr = shift.wht(shift.wht(shift.unAlph(currentSquare)));
+    testKnightSquare(testSqr);
+
+    testSqr = shift.blk(shift.blk(shift.alph(currentSquare)));
+    testKnightSquare(testSqr);
+
+    testSqr = shift.blk(shift.blk(shift.unAlph(currentSquare)));
+    testKnightSquare(testSqr);
+
+    testSqr = shift.alph(shift.alph(shift.wht(currentSquare)));
+    testKnightSquare(testSqr);
+
+    testSqr = shift.alph(shift.alph(shift.blk(currentSquare)));
+    testKnightSquare(testSqr);
+
+    testSqr = shift.unAlph(shift.unAlph(shift.wht(currentSquare)));
+    testKnightSquare(testSqr);
+
+    testSqr = shift.unAlph(shift.unAlph(shift.blk(currentSquare)));
+    testKnightSquare(testSqr);
+
     return range;
   }
 }
