@@ -21,8 +21,8 @@ const getRange = function (currentSquareArg, boardStateArg) {
       return getBishopRange();
     case "Q":
       return getQueenRange();
-    // case "K":
-    //   return getKingRange();
+    case "K":
+      return getKingRange();
   }
 
   function isUnoccupied(sqrName) {
@@ -143,32 +143,32 @@ const getRange = function (currentSquareArg, boardStateArg) {
       }
     }
     let testSqr;
-
-    testSqr = shift.wht(shift.wht(shift.alph(currentSquare)));
+    const shiftDirArr = Object.keys(shift);
+    for(let i = 0; i < shiftDirArr.length - 1; i++) {
+      testSqr = shift[shiftDirArr[i]](shift[shiftDirArr[i+1]](currentSquare));
+      testKnightSquare(testSqr);
+    }
+    testSqr = shift[shiftDirArr.pop()](shift[shiftDirArr[0]](currentSquare));
     testKnightSquare(testSqr);
-
-    testSqr = shift.wht(shift.wht(shift.unAlph(currentSquare)));
-    testKnightSquare(testSqr);
-
-    testSqr = shift.blk(shift.blk(shift.alph(currentSquare)));
-    testKnightSquare(testSqr);
-
-    testSqr = shift.blk(shift.blk(shift.unAlph(currentSquare)));
-    testKnightSquare(testSqr);
-
-    testSqr = shift.alph(shift.alph(shift.wht(currentSquare)));
-    testKnightSquare(testSqr);
-
-    testSqr = shift.alph(shift.alph(shift.blk(currentSquare)));
-    testKnightSquare(testSqr);
-
-    testSqr = shift.unAlph(shift.unAlph(shift.wht(currentSquare)));
-    testKnightSquare(testSqr);
-
-    testSqr = shift.unAlph(shift.unAlph(shift.blk(currentSquare)));
-    testKnightSquare(testSqr);
-
     return range;
+  }
+
+  function getKingRange() {
+    function testKingSquare(testSqr) {
+      if (testSqr.length === 2) {
+        if (isUnoccupied(testSqr) || isEnemyOccupied(testSqr)) {
+          range.push(testSqr);
+        }
+      }
+    }
+
+    Object.keys(shift).forEach(dir => {
+      let testSqr = shift[dir](currentSquare);
+      testKingSquare(testSqr);
+    })
+   
+    return range;
+
   }
 }
 
