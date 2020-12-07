@@ -25,18 +25,7 @@ const getRange = function (currentSquareArg, boardStateArg) {
       return getKingRange();
   }
 
-  function isUnoccupied(sqrName) {
-    const result = boardState[sqrName]?.piece ? false : true;
-    console.log(`isUnoccupied(${sqrName}) result = ${result}`);
-    return result;
-  }
-
-  function isEnemyOccupied(sqrName) {
-    if (isUnoccupied(sqrName)) return false;
-    const result = boardState[sqrName].piece.isWht !== isWht;
-    console.log(`isEnemyOccupied(${sqrName}) result = ${result}`);
-    return result;
-  }
+ 
 
   function getBoundsByDirection(dir) {
     let bounds = currentSquare;
@@ -44,8 +33,8 @@ const getRange = function (currentSquareArg, boardStateArg) {
 
     while (testSqr.length > 1) {
 
-      if (!isUnoccupied(testSqr)) {
-        if (isEnemyOccupied(testSqr)) {
+      if (!isUnoccupied(testSqr, boardState)) {
+        if (isEnemyOccupied(testSqr, boardState, isWht)) {
           return testSqr;
         } else return bounds;
       }
@@ -77,12 +66,12 @@ const getRange = function (currentSquareArg, boardStateArg) {
     //Tests to see square in front of pawn is unoccupied
     let testSqr = shift[color](currentSquare);
 
-    if (isUnoccupied(testSqr)) {
+    if (isUnoccupied(testSqr, boardState)) {
       range.push(testSqr);
       if (isFirstMove) {
         //if square is unoccupied and its first move, check next square in front of pawn
         testSqr = shift[color](testSqr);
-        if (isUnoccupied(testSqr)) {
+        if (isUnoccupied(testSqr, boardState)) {
           range.push(testSqr)
         }
       }
@@ -91,12 +80,12 @@ const getRange = function (currentSquareArg, boardStateArg) {
     //Check diagonals 
     testSqr = shift[color + "Alph"](currentSquare);
     console.log("testSqr================ ", testSqr);
-    if (isEnemyOccupied(testSqr)) {
+    if (isEnemyOccupied(testSqr, boardState, isWht)) {
       range.push(testSqr)
     }
 
     testSqr = shift[color + "UnAlph"](currentSquare);
-    if (isEnemyOccupied(testSqr)) {
+    if (isEnemyOccupied(testSqr, boardState, isWht)) {
       range.push(testSqr)
     }
 
@@ -137,7 +126,7 @@ const getRange = function (currentSquareArg, boardStateArg) {
   function getKnightRange() {
     function testKnightSquare(testSqr) {
       if (testSqr.length === 2) {
-        if (isUnoccupied(testSqr) || isEnemyOccupied(testSqr)) {
+        if (isUnoccupied(testSqr, boardState) || isEnemyOccupied(testSqr, boardState, isWht)) {
           range.push(testSqr);
         }
       }
@@ -156,7 +145,7 @@ const getRange = function (currentSquareArg, boardStateArg) {
   function getKingRange() {
     function testKingSquare(testSqr) {
       if (testSqr.length === 2) {
-        if (isUnoccupied(testSqr) || isEnemyOccupied(testSqr)) {
+        if (isUnoccupied(testSqr, boardState) || isEnemyOccupied(testSqr, boardState, isWht)) {
           range.push(testSqr);
         }
       }
@@ -172,4 +161,17 @@ const getRange = function (currentSquareArg, boardStateArg) {
   }
 }
 
-export default getRange;
+const isUnoccupied = function (sqrName, boardState) {
+  const result = boardState[sqrName]?.piece ? false : true;
+  console.log(`isUnoccupied(${sqrName}) result = ${result}`);
+  return result;
+}
+
+const isEnemyOccupied = function(sqrName, boardState, isWht) {
+  //if (isUnoccupied(sqrName, boardState)) return false;
+  const result = boardState[sqrName].piece.isWht !== isWht;
+  console.log(`isEnemyOccupied(${sqrName}) result = ${result}`);
+  return result;
+}
+
+export { getRange, isUnoccupied, isEnemyOccupied };
