@@ -168,7 +168,7 @@ const isUnoccupied = function (sqrName, boardState) {
 }
 
 const isEnemyOccupied = function(sqrName, boardState, isWht) {
-  //if (isUnoccupied(sqrName, boardState)) return false;
+  if (isUnoccupied(sqrName, boardState)) return false;
   const result = boardState[sqrName].piece.isWht !== isWht;
   console.log(`isEnemyOccupied(${sqrName}) result = ${result}`);
   return result;
