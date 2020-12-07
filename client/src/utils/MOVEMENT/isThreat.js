@@ -36,10 +36,28 @@ const isLinearThreat = function(boardState, kingSqr) {
 
 }
 
+const isPawnThreat = function(boardState, kingSqr) {
+  const { isWht } = boardState[kingSqr].piece;
+  const color = isWht ? "wht" : "blk";
+
+  let testSqr = shift[color + "Alph"](kingSqr);
+  if (isEnemyOccupied(testSqr, boardState, isWht) && boardState[testSqr].piece.type === "P") {
+    return true;
+  }
+
+  testSqr = shift[color + "UnAlph"](kingSqr);
+  if (isEnemyOccupied(testSqr, boardState, isWht) && boardState[testSqr].piece.type === "P") {
+    return true;
+  }
+
+  return false;
+}
+
 
 
 const isThreat =  {
-  linear: isLinearThreat
+  linear: isLinearThreat,
+  pawn: isPawnThreat
   //,
   //direct: isDirectThreat(boardState, kingSqr)
 }
