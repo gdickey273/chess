@@ -15,27 +15,27 @@ const shift = {
   wht: function(sqrName) {
     return sqrName.length < 2 ? "" : `${sqrName[0]}${parseInt(sqrName[1]) === 8 ? "" : parseInt(sqrName[1]) + 1}`
   },
-  blk: function(sqrName) {
-    return sqrName.length < 2 ? "" : `${sqrName[0]}${parseInt(sqrName[1]) === 1 ? "" : parseInt(sqrName[1]) - 1}`
-  },
-  alph: function(sqrName) {
-    return `${incrementRank(sqrName[0])}${sqrName[1]}`
-  },
-  unAlph: function(sqrName) {
-    return `${decrementRank(sqrName[0])}${sqrName[1]}`
-  },
   whtAlph: function(sqrName) {
     return `${this.wht(this.alph(sqrName))}`
   },
-  whtUnAlph: function(sqrName) {
-    return `${this.wht(this.unAlph(sqrName))}`
+  alph: function(sqrName) {
+    return sqrName.length < 2 ? "" : `${incrementRank(sqrName[0])}${sqrName[1]}`
   },
   blkAlph: function(sqrName) {
     return `${this.blk(this.alph(sqrName))}`
   },
+  blk: function(sqrName) {
+    return sqrName.length < 2 ? "" : `${sqrName[0]}${parseInt(sqrName[1]) === 1 ? "" : parseInt(sqrName[1]) - 1}`
+  },
   blkUnAlph: function(sqrName) {
     return `${this.blk(this.unAlph(sqrName))}`
-  }
+  },
+  unAlph: function(sqrName) {
+    return sqrName.length < 2 ? "" : `${decrementRank(sqrName[0])}${sqrName[1]}`
+  },
+  whtUnAlph: function(sqrName) {
+    return `${this.wht(this.unAlph(sqrName))}`
+  } 
 }
 
 export default shift; 
